@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:almost_zenly/components/app_loading.dart';
+import 'package:menherachan/components/app_loading.dart';
 
 // importは省略しています
 class SubmitButton extends StatelessWidget {

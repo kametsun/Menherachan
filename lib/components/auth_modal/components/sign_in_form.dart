@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:almost_zenly/components/auth_modal/components/animated_error_message.dart';
-import 'package:almost_zenly/components/auth_modal/components/auth_modal_image.dart';
-import 'package:almost_zenly/components/auth_modal/components/auth_text_form_field.dart';
-import 'package:almost_zenly/components/auth_modal/components/submit_button.dart';
+import 'package:menherachan/components/auth_modal/components/animated_error_message.dart';
+import 'package:menherachan/components/auth_modal/components/auth_modal_image.dart';
+import 'package:menherachan/components/auth_modal/components/auth_text_form_field.dart';
+import 'package:menherachan/components/auth_modal/components/submit_button.dart';
 
 // importは省略しています
 class SignInForm extends StatefulWidget {

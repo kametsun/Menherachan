@@ -1,7 +1,7 @@
-import 'package:almost_zenly/components/auth_modal/components/sign_in_form.dart';
-import 'package:almost_zenly/components/auth_modal/components/sign_up_form.dart';
+import 'package:menherachan/components/auth_modal/components/sign_in_form.dart';
+import 'package:menherachan/components/auth_modal/components/sign_up_form.dart';
 import 'package:flutter/material.dart';
-import 'package:almost_zenly/components/auth_modal/components/close_modal_button.dart';
+import 'package:menherachan/components/auth_modal/components/close_modal_button.dart';
 
 enum AuthModalType {
   signIn,

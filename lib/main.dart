@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:almost_zenly/screens/mpa_screen/map_screen.dart';
-import 'package:almost_zenly/firebase_options.dart';
+import 'package:menherachan/screens/mpa_screen/map_screen.dart';
+import 'package:menherachan/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {

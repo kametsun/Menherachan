@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:almost_zenly/models/app_user.dart';
+import 'package:menherachan/models/app_user.dart';
 
 // importは省略しています
 class UserCardList extends StatefulWidget {

@@ -1,4 +1,4 @@
-package com.example.almost_zenly
+package com.example.menherachan
 
 import io.flutter.embedding.android.FlutterActivity
 

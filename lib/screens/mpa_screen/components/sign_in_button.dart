@@ -1,4 +1,4 @@
-import 'package:almost_zenly/components/auth_modal/auth_modal.dart';
+import 'package:menherachan/components/auth_modal/auth_modal.dart';
 import 'package:flutter/material.dart';
 
 class SignInButton extends StatelessWidget {

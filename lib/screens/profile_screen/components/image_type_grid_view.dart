@@ -1,4 +1,4 @@
-import 'package:almost_zenly/types/image_type.dart';
+import 'package:menherachan/types/image_type.dart';
 import 'package:flutter/material.dart';
 
 class ImageTypeGridView extends StatelessWidget {

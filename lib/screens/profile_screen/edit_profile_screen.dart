@@ -1,10 +1,10 @@
 import 'dart:io';
-import 'package:almost_zenly/components/app_loading.dart';
-import 'package:almost_zenly/models/app_user.dart';
+import 'package:menherachan/components/app_loading.dart';
+import 'package:menherachan/models/app_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:almost_zenly/types/image_type.dart';
+import 'package:menherachan/types/image_type.dart';
 import 'package:image_picker/image_picker.dart';
 
 // importは省略しています

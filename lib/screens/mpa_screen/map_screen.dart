@@ -1,14 +1,14 @@
 import 'dart:async';
-import 'package:almost_zenly/models/app_user.dart';
-import 'package:almost_zenly/screens/mpa_screen/components/profile_button.dart';
+import 'package:menherachan/models/app_user.dart';
+import 'package:menherachan/screens/mpa_screen/components/profile_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
-import 'package:almost_zenly/screens/mpa_screen/components/sign_in_button.dart';
-import 'package:almost_zenly/screens/profile_screen/profile_screen.dart';
-import 'package:almost_zenly/screens/mpa_screen/components/user_card_list.dart';
+import 'package:menherachan/screens/mpa_screen/components/sign_in_button.dart';
+import 'package:menherachan/screens/profile_screen/profile_screen.dart';
+import 'package:menherachan/screens/mpa_screen/components/user_card_list.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({

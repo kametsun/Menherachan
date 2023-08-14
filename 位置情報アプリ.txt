@@ -1,0 +1,221 @@
+使用パッケージ:
+	google_maps_flutter
+	geolocator -> 現在地の取得に利用
+
+import の順番
+import 文にはどこから読み込んでいるかに応じて順番が決まっており、
+上からdart < flutter < package < 自作のライブラリ という順番で記述する 必要があります。
+もしこの順番が前後するとエラーが発生するので、注意しましょう。
+
+現状 Google Map の API キーは直接 AndroidManifest.xml もしくはAppDelegate.swiftに直接書き込まれているかと思います。
+
+この状態でアプリを Github などへアップロードした場合、API キーが漏洩してしまい、不正使用されてしまう可能性があります。
+その為、本章では API キーを秘匿化し、コード本体はアップロード可能にしておきましょう。
+
+環境変数用のファイルを用意し、そこから読み込む
+アプローチは以下の通りです
+
+API キーを管理する環境変数用のファイルを作り、そこから API キーを読み込む
+その上で、環境変数用ファイルは.gitignore し、アップロードされない様にする
+
+[resizeToAvoidBottomInset を設定する]
+初めに行うのはMapScreenのScaffoldが持つresizeToAvoidBottomInsetというフィールドの設定です。こちらにfalseを渡します。
+
+このフィールドはキーボードが出現した場合にディスプレイの大きさのリサイズを行うかをどうかを制御します。
+falseを渡すことでリサイズを行わないように Flutter アプリに伝えることが出来ます。
+
+[SingleChildScrollViewとは]
+SingleChildScrollViewはColumnもしくはRowと合わせて使うことを前提にして widget で
+ Column/Row内の子要素がサイズ制約を超えて配置された場合にスクロール可能にする という機能を備えています。
+
+[LocationSettingsクラス]
+	LocationSettingsクラスでは、現在地の監視に関して以下三つの設定を行うことが出来ます。
+
+	accuracy：通知の精度を指定することが出来ます。詳しくはこちら
+			(https://pub.dev/documentation/geolocator_platform_interface/latest/geolocator_platform_interface/LocationAccuracy.html)
+			を参照ください。
+	distanceFilter：どれくらいの距離を移動したら通知するか指定することが出来ます。
+	timeLimit:通知を受け取るべき時間の間隔を指定する事が出来ます。
+				ここで指定した時間内に位置情報が更新されなかった場合、エラーを throw します。
+
+[Streamとは]
+	dartが提供するデータ型の１つ.
+	非同期なデータを取り扱うためのデータ型。
+	Streamでは流れてくるデータオブジェクトの型は同じ型である必要があるので、
+	定義の際に<>の中にどのようなデータ型のオブジェクトが流れてくるかを定義してください。
+
+	[購読・サブスクリプション]
+		listen()メソッドを使って,Streamを購読
+
+		listen()はStreamに流れてくるデータオブジェクトを返すコールバック関数を渡すことができる。
+		流れてくるオブジェクトを使った処理を記述することができる。
+
+		Streamを監視している以上、新しいデータが流し込まれるたび実行される
+
+		getPositionStreamではどの精度で監視するかを指定出来るLocationSettingsを渡すことができる
+	[解放]
+		購読処理が不要になった際には購読を解放する必要がある
+
+		解放しない場合メモリを消費し続ける
+
+[監視には]
+	Geolocatorパッケージが持つGeolocator.getPositionStreamというメソッドを使う
+
+	現在地の変更を監視するストリームを返す。
+	ストリームは変更を検知する多米にPositionというオブジェクトを発行する
+
+
+
+位置情報を取得するにはユーザの許可が必要
+-> 各プラットフォームごとの設定が必要
+
+現在地取得の許可を得るメソッドはgeolocatorパッケージに含まれる
+-> geolocator/geolocator.dart
+
+Geolocator.checkPermission() -> 現在位置取得の許可状態を確認 -> 許可状態のステータス(LocationPermission)を返す
+Geolocator.requestPermission() -> 現在地取得の許可を求めるダイアログを表示
+
+[LocationPermissionクラスの定数のどれかが返される]
+・LocationPermission.denied -> 許可されていない
+・LocationPermission.deniedForever -> 今後も許可されない
+・LocationPermission.whileInUse -> 許可されている
+・LocationPermission.always -> 常に許可
+・LocationPermission.undetermined -> 許可状況が不明
+
+[現在地を取得する]
+	GeolocatorクラスのgetCurrentPositionメソッドを使用する
+
+	[LocationAccuracyクラス]
+		getCurrentPositionメソッドで精度を指定するdesiredAccuracyというパラメータがある。
+		デフォルトはLocationAccuracy.lowだがhighにすることで高精度となる
+
+	[カメラを移動する]
+		GoogleMapControllerクラスを使用する。GoogleMap WidgetのonMapCreatedのパラメータのコールバック関するを受け取るクラス変数を定義し、onMapCreatedから受け取り、変数に代入するようにする。
+		カメラ位置の移動にはGoogleMapControllerのanimateCameraメソッドを使う。
+		移動したい位置をCameraUpdateクラスのインスタンスとして渡すことでカメラ位置を移動させることができる。
+
+		CameraPositionの target に指定されたLatLngの位置情報。
+
+[マーカーで表示する]
+	GoogleMap Widget のmyLocationEnabledパラメータをtrueにすることで、現在地をマーカー表示することができる
+
+
+GoogleMap APIを使う手順
+
+	1. APIキーを取得
+	2. google mapのパッケージをインストール
+	3. iOSとAndroidの設定
+	4. APIキーを設定
+
+ライフサイクル : Widgetの生成 -> 更新 -> 破棄　の一連の流れ
+
+StatefulWidgetが持つライフサイクルの状態はcreate,initialized,ready,defunctの4つ
+
+[create]
+	StatefulWidgetのcreateState()メソッドが呼ばれる、 Stateクラスが生成された状態。この後すぐにinitState()
+	
+	```
+	@override
+	void initState(){
+		super.initState();
+		//ここで初期化処理を行っている
+	}
+	```
+	BuildContextの状態が確定していないから、BuildContextを利用した処理は行えない
+
+	[BuildContext]
+		Widgetのルートから末端に至るまで、親Widgetから子Widgetに対して渡されるそこまでのWidgetツリーに関する様々情報を管理するクラ		ス。
+
+		Widgetが生成されるときは必ず親WidgetからBuildContextが渡されその中の情報をもとにWigetは自信のツリー上での位置を認識し		たり様々な処理をすることができる。
+
+[initialized]
+	initState()が実行された後。initState()はこの時点で一度実行された後、実行されることはない。
+	
+	initState()の処理が呼び出されたすぐ後にはdidChangeDependencies()の処理が呼び出される。
+	この処理は最初に呼び出された後もStatefulWidget(State)が依存している外部のデータが変更される度に呼び出される。
+
+	```
+	@override
+	void didChangeDependencies(){
+		super.didChangDependencies();
+	}
+	```
+
+[ready]
+	didChangeDependencies()の処理が終わるとready状態になる。
+	その後すぐにbuild()メソッドが呼び出されWidgetの描画が行われる。
+
+	```
+	@override
+	Widget build(BuildContext context){
+		return Container();
+	}
+	```
+
+	setState()を使うと、強制的にこのbuild()メソッドを呼び出すことができる
+	```
+	void _incrementCounter(){
+		setState(){
+			//ここで状態を更新する
+		}
+	}
+	```
+
+	親Widgetが更新された場合、didUpdateWidget()が呼び出され、その後自動的にbuild()メソッドが呼び出される。
+
+	setState()が自信が更新でbuild()を呼び出すのに対し、didUpdateWidget()は親Widgetの更新でbuild()を呼び出すメソッド。
+
+	```
+	@override
+	void didUpdateWidget(MyHomePage oldWidget){
+		//ここで親Widgetの更新を検知したときの処理
+		super.didUpdateWidget(oldWidget);
+	}
+	```
+
+[defunct]
+	StatefulWidgetが完全に破棄された状態。この前には必ずdispose()メソッドが呼び出される。
+	```
+	@override
+	void dispose(){
+		//ここで破棄処理を行う
+		super.dispose();
+	}
+	```
+
+createState()
+↓
+[画面構築]
+created
+initState()
+initialized
+didChangeDependencies()
+↓
+[画面描画・再描画]
+		     ready
+		      ↓
+didUpdateWidget() → build()← setState()
+
+		            ↓
+[画面の破棄]
+dispose()
+↓
+defunct
+
+[ユースケース]
+	initState()とdispose()が使われる。
+
+[late修飾子]
+	変数の初期化タイミングがインスタンス生成時よりも後になる変数につける
+
+[GoogleMapControllerを解放する]
+	画面を破棄する際にdisposeメソッドで解放する必要がある
+	Controllerクラスには他にもいくつか種類がありますが、このクラスは明示的に破棄しなければ、常に存在し続けメモリを消費してしまいます。
+	メモリを消費し続けると 「メモリリーク」 と呼ばれる状態となり、
+	アプリの動作が重くなったり、アプリがクラッシュする原因になります。
+
+[ピンマーカーを配置するには]
+	GoogleMap WidgetのmarkersパラメータにMarkerオブジェクトを渡すことでできる
+	複数配置することができる
+
+

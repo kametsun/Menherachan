@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>717789393704-74l4bgk462523fi8sllcde2os5vbhrsp.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.717789393704-74l4bgk462523fi8sllcde2os5vbhrsp</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCVEk3qqd5aVnrQAk2YnVObIKNEV9W8JTk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>717789393704</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.tsubasa</string>
+	<key>PROJECT_ID</key>
+	<string>almost-zenly-296af</string>
+	<key>STORAGE_BUCKET</key>
+	<string>almost-zenly-296af.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:717789393704:ios:b5908acf47f17dd0d8161d</string>
+</dict>
+</plist>
